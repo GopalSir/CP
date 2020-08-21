@@ -1,11 +1,8 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <list>
-#include <map>
-#include <set>
-#include <queue>
+#include <bits/stdc++.h>
+#include <thread>
 using namespace std;
+using namespace chrono;
+
 
 /* used for graph vertex,distance pair comparison */
 struct customcompare{
@@ -85,33 +82,59 @@ void breadth_first_search(vector<list<pair<int,int> > > &graph,int src_vert, vec
     }          
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-int main()
+//marks all prime indexes as 0 in the passed by reference vector<int> vec
+void prime_sieve(int n,vector<int> &vec)
 {
-    vector<list<pair<int,int> > >graph;
-    int n;    
-    cin>>n;
-    graph.resize((4*n)+1);              //graph size will be N+1
-    
-   // graph[0].push_back({0,0});
-
-    for(int i=1;i<=(2*n);++i)
+    vec.resize(n+1,0);     //0 means unvivisted index . initially all indexes are unvisited
+    for(int i=2;(i*i)<=n;++i)
     {
-        graph[i].push_back({2*i,0});    //reachable vertex and it's weight (weight is irrelevant here)
-        graph[i].push_back({i-1,0});
-    }
-    vector<int>ans;
-    breadth_first_search(graph,1,ans);
-    for(auto x:ans)
-    cout<<x<<"\t";
+        if(vec[i]==0)   // if unvisited then visit all multiples
+        for(int j=(i*i);j<=n;j+=i)
+        {
+            vec[j]=1;      //make this multiple visited
+        }
+    } 
+    
+}
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 
-     
- 
+
+
+int main()
+{   /***************************************/
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+    freopen("time.txt","w",stderr);
+    auto start = high_resolution_clock::now();
+    /***************************************/
+    
+       vector<int>ans;
+       prime_sieve(5,ans);
+       for(int i=1;i<=ans.size();++i) { if(ans[i]==0)cout<<i<<"\n";}
+       
+        return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /***************************************/
+    auto end = high_resolution_clock::now();
+    auto dur = duration_cast<milliseconds>((end - start));
+    cerr<<"Elapsed : "<<dur.count()<<" MS";
+    /***************************************/
+    return 0;    
 }
 
 
