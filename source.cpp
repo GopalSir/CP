@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <thread>
+
 using namespace std;
 using namespace chrono;
 
@@ -94,13 +95,95 @@ void prime_sieve(int n,vector<int> &vec)
             vec[j]=1;      //make this multiple visited
         }
     } 
-    
+            
 }
+
+long long lcs(string a, string b,int m,int n)
+{
+    int arr[m+1][n+1];
+
+    //base case for when one of the length is zero
+    for(int i=0;i<=m;++i) arr[i][0]=0;  // base cases
+    for(int i=0;i<=n;++i) arr[0][i]=0;  // base cases
+
+    for(int i=1;i<=m;++i)
+    {
+        for(int j=1;j<=n;++j)
+        {
+            if(a[i-1] == b[j-1])
+            {
+                arr[i][j] = 1 + arr[i-1][j-1];
+            }
+            else
+            {
+                arr[i][j] = max(arr[i-1][j], arr[i][j-1]);
+            }
+
+        }
+    }
+
+    return arr[m][n];   
+
+}
+
+
+
+ void floyd_warshall(int graph[][5],int Vertex_count,int solution_matrix[][5])
+{
+    //initializing sol matrix same as given graph
+    for(int i=0;i<Vertex_count;++i)
+    {
+        for(int j=0;j<Vertex_count;++j)
+        {
+            solution_matrix[i][j] = graph[i][j];
+        }
+    }
+
+    for (int k = 0; k < Vertex_count; ++k)
+    {
+         //k is the intermediate vertex
+         //now relax i j pair using  using intermediate vertex k
+        for (int i = 0; i < Vertex_count; ++i)
+        {
+            for (int j = 0; j < Vertex_count; ++j)
+            {
+             if(solution_matrix[i][j] > (solution_matrix[i][k] + solution_matrix[k][j]) )
+                solution_matrix[i][j] = solution_matrix[i][k] + solution_matrix[k][j];
+            }
+        }
+
+    }
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+//edit distance problem using recursion. 
+//m and n are size of string measured from left to right
+int edit_distance(string &a,string &b,int m,int n)
+{
+    if(m == 0)
+        return n;
+    if(n ==0)
+        return m;
+
+    if(a[m-1] == b[n-1])
+        return edit_distance(a,b,m-1,n-1);
+    int ans = INT32_MAX;
+
+    int r1 = 1 + edit_distance(a,b,m,n-1);
+    int r2 = 1 + edit_distance(a,b,m-1,n);
+    int r3 = 1 + edit_distance(a,b,m-1,n-1);
+
+    ans = min(r1,r2);
+    ans = min(ans,r3);
+
+    return ans; 
+}
 
 
 int main()
@@ -111,11 +194,12 @@ int main()
     auto start = high_resolution_clock::now();
     /***************************************/
     
-       vector<int>ans;
-       prime_sieve(5,ans);
-       for(int i=1;i<=ans.size();++i) { if(ans[i]==0)cout<<i<<"\n";}
-       
-        return 0;
+    
+    string a = "gaurav";
+    string b = "gauravd";
+
+    cout<<edit_distance(a,b,6,7);
+    
 
 
 
@@ -123,17 +207,14 @@ int main()
 
 
 
-
-
-
-
-
+     
 
     /***************************************/
     auto end = high_resolution_clock::now();
     auto dur = duration_cast<milliseconds>((end - start));
-    cerr<<"Elapsed : "<<dur.count()<<" MS";
+    cerr<<"Elapsed : "<<dur.count()<<" MS\n";
     /***************************************/
+   
     return 0;    
 }
 
