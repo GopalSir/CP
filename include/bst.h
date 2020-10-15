@@ -46,6 +46,7 @@ public:
 template<typename T> Node<T>::Node(T temp):data{temp}
 {
     std::cout<<"Calling T arg Node constructor \n";
+ 
  left = nullptr;
  right = nullptr;
 }
@@ -53,6 +54,7 @@ template<typename T> Node<T>::Node(T temp):data{temp}
 template<typename T> Node<T>::Node()
 {
     std::cout<<"Calling NO ARG Node constructor \n";
+    data = T();
     left = nullptr;
     right = nullptr;
 }
