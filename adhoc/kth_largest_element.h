@@ -40,6 +40,9 @@ void max_heapify(std::vector<int> &vec,int index,int size)
 	max_heapify(vec,largest_index,size);
 }
 
+//returns the index of starting point of k largest elements by putting them at 
+//the end of array . Uses heap and then repetedly extract max element from top 
+// and call maxheapify at '0' index to correct it . 
 int kth_largest_elements( std::vector<int> &vec,int k)
 {
 	std::cout<<"Lmao \n";
@@ -50,9 +53,6 @@ int kth_largest_elements( std::vector<int> &vec,int k)
      	max_heapify(vec,i,vec.size());
      }
 
-     for(int i=0;i<size;++i)
-     	std::cout<<vec[i]<<" ";
-     std::cout<<std::endl;
 
      for(int i=0;i<k;++i)
      {
@@ -61,11 +61,8 @@ int kth_largest_elements( std::vector<int> &vec,int k)
      }
 
 
-     for(int i=0;i<vec.size();++i)
-     	std::cout<<vec[i]<<" ";
-     std::cout<<std::endl;
-
-     return 0;
+   
+     return vec.size() - k ;
 
 }
 
