@@ -45,7 +45,7 @@ void max_heapify(std::vector<int> &vec,int index,int size)
 // and call maxheapify at '0' index to correct it . 
 int kth_largest_elements( std::vector<int> &vec,int k)
 {
-	std::cout<<"Lmao \n";
+	
      int size = vec.size();
 
      for(int i=size/2 + 1; i>=0; --i)
